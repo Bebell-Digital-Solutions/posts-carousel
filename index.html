@@ -7,27 +7,20 @@
     <style>
         @layer reset, base, layout, addon;
 
-
         @layer addon {
           @supports (scroll-marker-group: after) and (inset-block-end: anchor(end)) {
             .section-wrapper {
               anchor-name: --carousel;
-
-              /* Adjust the position of the carousel controls (buttons + markers) on small screens */
-              --controls-margin-block: 64px; /* Vertical spacing from the scroller */
-              --controls-margin-inline: 12px; /* Horizontal base spacing */
-
+              --controls-margin-block: 64px;
+              --controls-margin-inline: 12px;
               --scroll-btn-gap: 12px;
               --scroll-btn-extra-offset: 0px;
               --scroll-btn-margin-inline: calc(var(--controls-margin-inline) + var(--scroll-btn-extra-offset));
               --scroll-btn-size: 50px;
 
-              /* md-n-above */
               @media (width >= 768px) {
-                /* Adjust the position of the carousel controls (buttons + markers) On medium and larger screens */
-                --controls-margin-block: 84px; /* Vertical spacing from the scroller */
-                --controls-margin-inline: 32px; /* Horizontal base spacing */
-
+                --controls-margin-block: 84px;
+                --controls-margin-inline: 32px;
                 --scroll-btn-gap: 78px;
                 --scroll-btn-extra-offset: 53px;
               }
@@ -50,7 +43,7 @@
                 grid-auto-flow: column;
                 block-size: fit-content;
                 inline-size: 60cqi;
-                background-color: color-mix(in srgb, var(--secondary) 30%, white 70%);
+                background-color: rgba(223, 23, 131, 0.2); /* Light pink */
                 justify-items: end;
                 position-anchor: --carousel;
                 position: absolute;
@@ -68,7 +61,7 @@
                 inline-size: var(--scroll-btn-size);
                 inset-block-end: calc(anchor(end) + var(--controls-margin-block));
                 line-height: 0;
-                outline-color: var(--surface);
+                outline-color: white;
                 outline-offset: 2px;
                 place-items: center;
                 position-anchor: --carousel;
@@ -77,12 +70,12 @@
                 user-select: none;
                 -webkit-tap-highlight-color: transparent;
                 -webkit-touch-callout: none;
-                background-color: var(--surface);
+                background-color: white;
               }
 
               &::scroll-button(*):disabled {
                 cursor: not-allowed;
-                background-color: color-mix(in srgb, var(--primary) 80%, var(--surface) 20%);
+                background-color: rgba(223, 23, 131, 0.5);
               }
 
               &::scroll-button(inline-start) {
@@ -111,7 +104,7 @@
                 width: 8px;
                 height: 8px;
                 border-radius: 100px;
-                background-color: var(--primary);
+                background-color: #ffd700; /* Yellow */
               }
 
               &::scroll-marker:target-current {
@@ -120,7 +113,6 @@
             }
 
             .img-2 {
-              /* Clear fallback transform */
               transform: unset;
               transition: transform var(--duration) ease-in;
               transition-delay: var(--img-translate-delay);
@@ -130,14 +122,12 @@
             }
 
             .marker-bar {
-              /* Prevents expensive paint and layout invalidations outside the element */
               contain: layout paint;
               will-change: inset-inline-start;
-
               inline-size: calc(6cqi + 8px);
               block-size: 8px;
               display: block;
-              background-color: var(--primary);
+              background-color: #ffd700 !important; /* Yellow */
               position-anchor: --current;
               position: absolute;
               inset-block-end: anchor(end);
@@ -184,24 +174,24 @@
             --arrow-icon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23111111"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>');
             --caption: 400 0.688rem/1rem system-ui, sans-serif;
             --headline: 600 3rem/1.2 system-ui, sans-serif;
-            --headline-small: 600 3rem/1.2 system-ui, sans-serif; /* Changed to minimum 48px (3rem) */
+            --headline-small: 600 3rem/1.2 system-ui, sans-serif;
             --label: 600 1rem / 1.375rem system-ui, sans-serif;
             --title: 600 1.75rem/2.25rem system-ui, sans-serif;
             --title-small: 600 1.5rem/2rem system-ui, sans-serif;
 
-            --primary: #df1783; /* Main pink color */
-            --primary-hover: #b81269; /* Darker pink for hover */
-            --secondary: #ffd700; /* Yellow for dots and buttons */
-            --secondary-hover: #e6c200; /* Darker yellow for hover */
+            /* Brand color palette */
+            --primary: #df1783; /* Primary pink */
+            --primary-hover: #b81269; /* Darker pink */
+            --primary-light: rgba(223, 23, 131, 0.1); /* Very light pink */
+            --secondary: #ffd700; /* Yellow */
+            --secondary-hover: #e6c200; /* Darker yellow */
 
+            /* Neutral colors */
             --surface: #ffffff;
             --on-surface: #000000;
-            --on-primary: #ffffff;
-            --on-secondary: #000000;
-
             --surface-container: #f8f8f8;
-            --on-surface-container: #000000;
-
+            
+            /* Shadows */
             --shadow-02: 0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
             --shadow-04: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
           }
@@ -211,13 +201,11 @@
           .section {
             --duration: 0;
             --img-translate-delay: 0;
-
             background-color: var(--surface);
             color: var(--on-surface);
             padding-block: 64px;
             font: var(--body);
 
-            /* motionOK */
             @media (prefers-reduced-motion: no-preference) {
               --duration: 200ms;
               --img-translate-delay: 250ms;
@@ -227,14 +215,13 @@
           .section-wrapper {
             container-type: inline-size;
             background-color: var(--primary);
-            color: var(--on-primary);
+            color: white;
             display: block;
             border-start-end-radius: 128px;
             overflow: clip;
             padding-block: 32px;
             padding-block-end: 128px;
 
-            /* md-n-above */
             @media (width >= 768px) {
               padding-block-end: 160px;
             }
@@ -245,7 +232,6 @@
             display: grid;
             place-items: center;
             padding-inline: 16px;
-            /* md-n-above */
             @media (width >= 768px) {
               padding-block: 64px;
             }
@@ -256,10 +242,10 @@
             text-wrap: pretty;
             font: var(--headline-small);
             color: white;
-            font-size: 3rem; /* Ensures minimum 48px size */
+            font-size: 3rem;
             margin: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 
-            /* md-n-above */
             @media (width >= 768px) {
               font: var(--headline);
             }
@@ -275,30 +261,29 @@
             gap: 16px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            /* motionOK */
             @media (prefers-reduced-motion: no-preference) {
               scroll-behavior: smooth;
             }
           }
           
           .card {
-            --card-circle-bg: var(--on-secondary);
+            --card-circle-bg: var(--primary-light);
             background-color: var(--surface-container);
-            color: var(--on-surface-container);
+            color: var(--on-surface);
             border-radius: 1rem;
             overflow: clip;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(223, 23, 131, 0.1);
           }
           
           .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(223, 23, 131, 0.1);
           }
 
           .card-even {
             --card-circle-bg: var(--secondary);
             background-color: var(--surface);
-            color: var(--on-surface);
           }
 
           .article {
@@ -324,10 +309,10 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--primary);
+            font-weight: 700;
           }
           .title {
             font: var(--title-small);
-            /* md-n-above */
             @media (width >= 768px) {
               font: var(--title);
             }
@@ -342,15 +327,16 @@
             gap: 8px;
             padding-inline-start: 16px;
             text-decoration: none;
-            color: var(--on-secondary);
+            color: #000;
             font: var(--label);
             border-radius: 100px;
             box-shadow: var(--shadow-02);
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
 
             &:hover {
               --_x: 3px;
               background-color: var(--secondary-hover);
+              color: #000;
             }
           }
           .icon {
@@ -384,7 +370,6 @@
               inset-inline: 0;
               position: absolute;
               z-index: -1;
-
               aspect-ratio: 1;
               inline-size: 100%;
               border-radius: 100%;
@@ -407,10 +392,6 @@
             background-color: var(--surface);
             transform: translateX(55px) translateY(10px) rotate(8deg);
             z-index: -1;
-          }
-
-          .marker-bar {
-            background-color: var(--secondary) !important;
           }
 
           .btn-shape-deco {
