@@ -7,16 +7,6 @@
     <style>
         @layer reset, base, layout, addon;
 
-        /* To learn more about the following features:
-           - Scroll Buttons  
-           - Scroll Markers  
-           - Scroll-State Queries  
-           - Scroll Initial Target  
-           - Anchor Positioning  
-           check out these excellent resources by Adam Argyle:
-           - https://chrome.dev/carousel/
-           - https://developer.chrome.com/blog/carousels-with-css/
-        */
 
         @layer addon {
           @supports (scroll-marker-group: after) and (inset-block-end: anchor(end)) {
@@ -60,7 +50,7 @@
                 grid-auto-flow: column;
                 block-size: fit-content;
                 inline-size: 60cqi;
-                background-color: oklch(from var(--secondary) calc(l / 1.6) c calc(h - 2));
+                background-color: color-mix(in srgb, var(--secondary) 30%, white 70%);
                 justify-items: end;
                 position-anchor: --carousel;
                 position: absolute;
@@ -89,27 +79,6 @@
                 -webkit-touch-callout: none;
                 background-color: var(--surface);
               }
-
-              /* 
-               The buttons are intentionally styled without hover effects. 
-              This aligns with the original design choice to reduce visual noise 
-              and avoid drawing unnecessary attention away from card interactions.
-
-              If you'd like to add a hover effect, uncomment the code below. 
-              It uses relative color and transitions for a subtle lift on hover.
-             */
-
-              /* &::scroll-button(*) {
-                background-color: oklch(from var(--surface) calc(l * 1.5) c h);
-                transition-property: background-color, box-shadow;
-                transition-duration: var(--duration);
-                transition-timing-function: ease;
-              }
-
-              &::scroll-button(*):is(:not(:hover, :active)) {
-                background-color: var(--surface);
-                box-shadow: var(--elevation-shadow-02);
-              } */
 
               &::scroll-button(*):disabled {
                 cursor: not-allowed;
@@ -146,11 +115,6 @@
               }
 
               &::scroll-marker:target-current {
-                /* 
-          Assigns anchor-name: --current to the currently active scroll marker.
-          The .marker-bar uses position-anchor: --current to align relative to the active marker.
-          As you scroll, the marker-bar transitions its inset-inline-start (left) to follow the active marker.
-        */
                 anchor-name: --current;
               }
             }
@@ -220,23 +184,23 @@
             --arrow-icon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23111111"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>');
             --caption: 400 0.688rem/1rem system-ui, sans-serif;
             --headline: 600 3rem/1.2 system-ui, sans-serif;
-            /* Change from 2rem (32px) to 2.5rem (40px) for small screens */
-            --headline-small: 600 2.5rem/1.2 system-ui, sans-serif;
+            --headline-small: 600 3rem/1.2 system-ui, sans-serif; /* Changed to minimum 48px (3rem) */
             --label: 600 1rem / 1.375rem system-ui, sans-serif;
             --title: 600 1.75rem/2.25rem system-ui, sans-serif;
             --title-small: 600 1.5rem/2rem system-ui, sans-serif;
 
-            --surface: oklch(96% 0 236);
-            --on-surface: oklch(0% 0 0);
+            --primary: #df1783; /* Main pink color */
+            --primary-hover: #b81269; /* Darker pink for hover */
+            --secondary: #ffd700; /* Yellow for dots and buttons */
+            --secondary-hover: #e6c200; /* Darker yellow for hover */
 
-            --primary: oklch(91% 0.18 99);
-            --on-primary: oklch(0% 0 0);
+            --surface: #ffffff;
+            --on-surface: #000000;
+            --on-primary: #ffffff;
+            --on-secondary: #000000;
 
-            --secondary: oklch(60% 0.25 360); /* Dark pink (similar to #df1783 but darker) */
-            --on-secondary: oklch(100% 0 0);
-
-            --surface-container: oklch(91% 0.03 64);
-            --on-surface-container: oklch(0% 0 0);
+            --surface-container: #f8f8f8;
+            --on-surface-container: #000000;
 
             --shadow-02: 0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
             --shadow-04: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
@@ -262,8 +226,8 @@
           
           .section-wrapper {
             container-type: inline-size;
-            background-color: #df1783;
-            color: var(--on-secondary);
+            background-color: var(--primary);
+            color: var(--on-primary);
             display: block;
             border-start-end-radius: 128px;
             overflow: clip;
@@ -291,6 +255,9 @@
             text-align: center;
             text-wrap: pretty;
             font: var(--headline-small);
+            color: white;
+            font-size: 3rem; /* Ensures minimum 48px size */
+            margin: 0;
 
             /* md-n-above */
             @media (width >= 768px) {
@@ -320,8 +287,14 @@
             color: var(--on-surface-container);
             border-radius: 1rem;
             overflow: clip;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
           }
           
+          .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+          }
+
           .card-even {
             --card-circle-bg: var(--secondary);
             background-color: var(--surface);
@@ -350,6 +323,7 @@
             font: var(--caption);
             text-transform: uppercase;
             letter-spacing: 2px;
+            color: var(--primary);
           }
           .title {
             font: var(--title-small);
@@ -363,29 +337,31 @@
             display: flex;
             inline-size: fit-content;
             block-size: 40px;
-            background-color: var(--primary);
+            background-color: var(--secondary);
             align-items: center;
             gap: 8px;
             padding-inline-start: 16px;
             text-decoration: none;
-            color: var(--on-primary);
+            color: var(--on-secondary);
             font: var(--label);
             border-radius: 100px;
             box-shadow: var(--shadow-02);
+            transition: background-color 0.3s ease;
 
             &:hover {
               --_x: 3px;
+              background-color: var(--secondary-hover);
             }
           }
           .icon {
-            --_primary-darker: oklch(from var(--primary) calc(l - 0.08) c h);
-            background-color: var(--_primary-darker);
+            background-color: var(--secondary-hover);
             block-size: 100%;
             display: grid;
             align-items: center;
             aspect-ratio: 1;
             padding: 0.5rem;
             border-radius: 100px;
+            transition: background-color 0.3s ease;
           }
 
           .svg {
@@ -431,6 +407,10 @@
             background-color: var(--surface);
             transform: translateX(55px) translateY(10px) rotate(8deg);
             z-index: -1;
+          }
+
+          .marker-bar {
+            background-color: var(--secondary) !important;
           }
 
           .btn-shape-deco {
