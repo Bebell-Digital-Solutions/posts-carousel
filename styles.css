@@ -1,3 +1,6 @@
+@charset "UTF-8";
+/*! styles.css | MIT License | yourwebsite.com */
+
 @layer reset, base, layout, addon;
 
 /* To learn more about the following features:
